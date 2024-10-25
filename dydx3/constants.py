@@ -85,7 +85,7 @@ MARKET_XRP_USD = 'XRP-USD'
 MARKET_1000PEPE_USD = '1000PEPE-USD'
 
 # ------------ Assets ------------
-ASSET_USDC = 'USD'
+ASSET_USDC = 'USDC'
 ASSET_BTC = 'BTC'
 ASSET_ETH = 'ETH'
 ASSET_WIF = 'WIF'
@@ -187,6 +187,7 @@ SYNTHETIC_ASSET_ID_MAP = {
 
 # ------------ Asset Resolution (Quantum Size) ------------
 ASSET_RESOLUTION = {
+    ASSET_USDC: '1e6',
     ASSET_BTC: '1e6',
     ASSET_ETH: '1e5',
     ASSET_WIF: '1e1',
