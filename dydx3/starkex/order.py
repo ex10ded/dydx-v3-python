@@ -56,7 +56,7 @@ class SignableOrder(Signable):
         expiration_epoch_seconds,
     ):
         synthetic_asset = SYNTHETIC_ASSET_MAP[market]
-        synthetic_asset_id = SYNTHETIC_ASSET_ID_MAP[synthetic_asset]
+        synthetic_asset_id = SYNTHETIC_ASSET_ID_MAP[network_id][synthetic_asset]
         collateral_asset_id = COLLATERAL_ASSET_ID_BY_NETWORK_ID[network_id]
         is_buying_synthetic = side == ORDER_SIDE_BUY
         quantums_amount_synthetic = to_quantums_exact(
