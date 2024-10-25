@@ -192,26 +192,8 @@ class Private(object):
         stark_public_key,
         stark_public_key_y_coordinate,
     ):
-        '''
-        Make an account
 
-        :param stark_public_key: required
-        :type stark_public_key: str
-
-        :param stark_public_key_y_coordinate: required
-        :type stark_public_key_y_coordinate: str
-
-        :returns: Account
-
-        :raises: DydxAPIError
-        '''
-        return self._post(
-            'accounts',
-            {
-                'starkKey': stark_public_key,
-                'starkKeyYCoordinate': stark_public_key_y_coordinate,
-            }
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_account(
         self,
@@ -938,106 +920,7 @@ class Private(object):
         expiration_epoch_seconds=None,
         signature=None,
     ):
-        '''
-        Post a fast withdrawal
-
-        :param credit_asset: required
-        :type credit_asset: str in list [
-            "USDC",
-            "USDT",
-        ]
-
-        :param position_id: required
-        :type position_id: str or int
-
-        :param credit_amount: required
-        :type credit_amount: str or int
-
-        :param debit_amount: required
-        :type debit_amount: str or int
-
-        :param to_address: required
-        :type to_address: str
-
-        :param lp_position_id: required
-        :type lp_position_id: str or int
-
-        :param lp_stark_public_key: required
-        :type lp_stark_public_key: str
-
-        :param slippage_tolerance: optional
-        :type slippage_tolerance: str
-
-        :param client_id: optional
-        :type client_id: str
-
-        :param expiration: optional
-        :type expiration: ISO str
-
-        :param expiration_epoch_seconds: optional
-        :type expiration_epoch_seconds: int
-
-        :param signature: optional
-        :type signature: str
-
-        :returns: Transfer
-
-        :raises: DydxAPIError
-        '''
-        client_id = client_id or random_client_id()
-        if bool(expiration) == bool(expiration_epoch_seconds):
-            raise ValueError(
-                'Exactly one of expiration and expiration_epoch_seconds must '
-                'be specified',
-            )
-        expiration = expiration or epoch_seconds_to_iso(
-            expiration_epoch_seconds,
-        )
-        expiration_epoch_seconds = (
-            expiration_epoch_seconds or iso_to_epoch_seconds(expiration)
-        )
-
-        if not signature:
-            if not self.stark_private_key:
-                raise Exception(
-                    'No signature provided and client was not' +
-                    'initialized with stark_private_key'
-                )
-            fact = get_transfer_erc20_fact(
-                recipient=to_address,
-                token_decimals=COLLATERAL_TOKEN_DECIMALS,
-                human_amount=credit_amount,
-                token_address=(
-                    TOKEN_CONTRACTS[COLLATERAL_ASSET][self.network_id]
-                ),
-                salt=nonce_from_client_id(client_id),
-            )
-            transfer_to_sign = SignableConditionalTransfer(
-                network_id=self.network_id,
-                sender_position_id=position_id,
-                receiver_position_id=lp_position_id,
-                receiver_public_key=lp_stark_public_key,
-                fact_registry_address=FACT_REGISTRY_CONTRACT[self.network_id],
-                fact=fact,
-                human_amount=debit_amount,
-                client_id=client_id,
-                expiration_epoch_seconds=expiration_epoch_seconds,
-            )
-            signature = transfer_to_sign.sign(self.stark_private_key)
-
-        params = {
-            'creditAsset': credit_asset,
-            'creditAmount': credit_amount,
-            'debitAmount': debit_amount,
-            'slippageTolerance': slippage_tolerance,
-            # TODO: Signature verification should work regardless of case.
-            'toAddress': to_address.lower(),
-            'lpPositionId': lp_position_id,
-            'expiration': expiration,
-            'clientId': client_id,
-            'signature': signature,
-        }
-        return self._post('fast-withdrawals', params)
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_funding_payments(
         self,
@@ -1080,201 +963,62 @@ class Private(object):
         created_before_or_at=None,
         created_on_or_after=None,
     ):
-        '''
-        Get historical pnl ticks
-
-        :param created_before_or_at: optional
-        :type created_before_or_at: ISO str
-
-        :param created_on_or_after: optional
-        :type created_on_or_after: ISO str
-
-        :returns: Array of historical pnl ticks
-
-        :raises: DydxAPIError
-        '''
-        return self._get(
-            'historical-pnl',
-            {
-                'createdBeforeOrAt': created_before_or_at,
-                'createdOnOrAfter': created_on_or_after,
-            },
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def send_verification_email(
         self,
     ):
-        '''
-        Send verification email
-
-        :returns: Empty object
-
-        :raises: DydxAPIError
-        '''
-        return self._put(
-            'emails/send-verification-email',
-            {},
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_trading_rewards(
         self,
         epoch=None,
     ):
-        '''
-        Get trading rewards
-
-        :param epoch: optional
-        :type epoch: int
-
-        :returns: TradingRewards
-
-        :raises: DydxAPIError
-        '''
-        return self._get(
-            'rewards/weight',
-            {
-                'epoch': epoch,
-            },
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_liquidity_provider_rewards_v2(
         self,
         epoch=None,
     ):
-        '''
-        Get liquidity provider rewards
-
-        :param epoch: optional
-        :type epoch: int
-
-        :returns: LiquidityProviderRewards
-
-        :raises: DydxAPIError
-        '''
-        return self._get(
-            'rewards/liquidity-provider',
-            {
-                'epoch': epoch,
-            },
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_liquidity_provider_rewards(
         self,
         epoch=None,
     ):
-        '''
-        (Deprecated, please use get_liquidity_provider_rewards_v2)
-        Get liquidity rewards
-
-        :param epoch: optional
-        :type epoch: int
-
-        :returns: LiquidityRewards
-
-        :raises: DydxAPIError
-        '''
-        return self._get(
-            'rewards/liquidity',
-            {
-                'epoch': epoch,
-            },
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_retroactive_mining_rewards(
         self,
     ):
-        '''
-        Get retroactive mining rewards
-
-        :returns: RetroactiveMiningRewards
-
-        :raises: DydxAPIError
-        '''
-        return self._get('rewards/retroactive-mining')
+        raise NotImplementedError('This function is not yet implemented.')
 
     def request_testnet_tokens(
         self,
     ):
-        '''
-        Requests tokens on dYdX's staging server.
-        NOTE: this will not work on Mainnet/Production.
-
-        :returns: Transfer
-
-        :raises: DydxAPIError
-        '''
-        if (self.network_id != NETWORK_ID_SEPOLIA):
-            raise ValueError('network_id is not Sepolia')
-
-        return self._post('testnet/tokens', {})
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_profile(
         self,
     ):
-        '''
-        Get Private Profile
-
-        :returns: PrivateProfile
-
-        :raises: DydxAPIError
-        '''
-        return self._get('profile/private', {})
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_user_links(
         self,
     ):
-        '''
-        Get Active Linked Users
-
-        :returns: UserLinks
-
-        :raises: DydxAPIError
-        '''
-        return self._get('users/links', {})
+        raise NotImplementedError('This function is not yet implemented.')
 
     def send_link_request(
         self,
         action,
         address,
     ):
-        '''
-        Send Link Request Action
-
-        :param action: required
-        :type action: str in list [
-            "CREATE_SECONDARY_REQUEST",
-            "DELETE_SECONDARY_REQUEST",
-            "ACCEPT_PRIMARY_REQUEST",
-            "REJECT_PRIMARY_REQUEST",
-            "REMOVE",
-        ]
-
-        :param address: required
-        :type address: str
-
-        :returns: {}
-
-        :raises: DydxAPIError
-        '''
-        return self._post(
-            'users/links',
-            {
-                'action': action,
-                'address': address,
-            },
-        )
+        raise NotImplementedError('This function is not yet implemented.')
 
     def get_user_pending_link_requests(
         self,
     ):
-        '''
-        Get Pending Linked User Requests
-
-        :returns: UserLinkRequests
-
-        :raises: DydxAPIError
-        '''
-        return self._get('users/links/requests', {})
+        raise NotImplementedError('This function is not yet implemented.')
 
     # ============ Signing ============
 
