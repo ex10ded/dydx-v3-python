@@ -1,15 +1,3 @@
-<p align="center"><img src="https://dydx.exchange/flat.svg" width="256" /></p>
-
-<div align="center">
-  <a href='https://pypi.org/project/dydx-v3-python'>
-    <img src='https://img.shields.io/pypi/v/dydx-v3-python.svg' alt='PyPI'/>
-  </a>
-  <a href='https://github.com/dydxprotocol/dydx-v3-python/blob/master/LICENSE'>
-    <img src='https://img.shields.io/github/license/dydxprotocol/dydx-v3-python.svg' alt='License' />
-  </a>
-</div>
-<br>
-
 Python client for dYdX (v3 API).
 
 The library is currently tested against Python versions 2.7, 3.4, 3.5, 3.6, 3.9, and 3.11.
@@ -79,42 +67,6 @@ private_client.private.create_order(
     # Order will be signed using the provided STARK private key.
     # ...
 )
-```
-
-### Onboarding and API key management endpoints
-
-One of the following is required:
-* `eth_private_key`
-* `web3`
-* `web3_account`
-* `web3_provider`
-
-```python
-#
-# Onboard a new user or manage API keys, without providing private keys.
-#
-web3_client = Client(
-    host='http://localhost:8080',
-    web3_provider=Web3.HTTPProvider('http://localhost:8545'),
-)
-web3_client.onboarding.create_user(
-    stark_public_key='...',
-    ethereum_address='...',
-)
-web3_client.eth_private.create_api_key(
-    ethereum_address='...',
-)
-
-#
-# Onboard a new user or manage API keys, with private keys.
-#
-web3_client_with_keys = Client(
-    host='http://localhost:8080',
-    stark_private_key='...',
-    eth_private_key='...',
-)
-web3_client_with_keys.onboarding.create_user()
-web3_client_with_keys.eth_private.create_api_key()
 ```
 
 ### Using the C++ Library for STARK Signing
