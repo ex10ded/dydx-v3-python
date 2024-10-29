@@ -33,3 +33,5 @@ After obtaining your API credentials, you can put them into code as follows
 * ApiKey is self named. 
 
 ![Code Example](docs/CodeBlock.jpg)
+
+more details are in the [RestApi Example](x10_example.py) and the [WebSocket Example](websockets_example.py)
