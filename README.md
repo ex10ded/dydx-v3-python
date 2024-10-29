@@ -1,95 +1,35 @@
-Python client for dYdX (v3 API).
-
-The library is currently tested against Python versions 2.7, 3.4, 3.5, 3.6, 3.9, and 3.11.
+Python client for X10 Legacy API (v3 API).
 
 ## Installation
 
-The `dydx-v3-python` package is available on [PyPI](https://pypi.org/project/dydx-v3-python). Install with `pip`:
+The `x10-v3-python` package is available as a direct install from github. Install with `pip`:
 
 ```bash
-pip install dydx-v3-python
+pip install git+https://github.com/ex10ded/dydx-v3-python.git
 ```
+
+If you wish to verify the diffs with the upstream dydx v3 SDK, you can do so [here](https://github.com/dydxprotocol/dydx-v3-python/compare/master...ex10ded:dydx-v3-python:master). The only diffs should be asset configuration and removal of functionality not offered via the legacy API.  
 
 ## Getting Started
 
-The `Client` object can be created with different levels of authentication depending on which features are needed. For more complete examples, see the [examples](./examples/) directory, as well as [the integration tests](./integration_tests/).
+Currently due to signing scheme differences, you must onboard through the x10 UI to obtain trading credentials. 
 
-### Public endpoints
+Proceed to https://testnet.x10.exchange and connect / register 
+![main screen](docs/main_screen_connect.jpg)
 
-No authentication information is required to access public endpoints.
+Navigate to the Api Management Screen
+![main screen II](docs/main_screen_api_management.jpg)
 
-```python
-from dydx3 import Client
-from web3 import Web3
+Generate Api Credentials
+![Api Management I](docs/api_management_generate.jpg)
 
-#
-# Access public API endpoints.
-#
-public_client = Client(
-    host='http://localhost:8080',
-)
-public_client.public.get_markets()
-```
+View Api Credentials
+![Api Management II](docs/api_details.jpg)
 
-### Private endpoints
+After obtaining your API credentials, you can put them into code as follows
 
-One of the following is required:
-* `api_key_credentials`
-* `eth_private_key`
-* `web3`
-* `web3_account`
-* `web3_provider`
+* Public and Private Keys are self named. 
+* Vault corresponds to DyDx "positionId"
+* ApiKey is self named. 
 
-```python
-#
-# Access private API endpoints, without providing a STARK private key.
-#
-private_client = Client(
-    host='http://localhost:8080',
-    api_key_credentials={ 'key': '...', ... },
-)
-private_client.private.get_orders()
-private_client.private.create_order(
-    # No STARK key, so signatures are required for orders and withdrawals.
-    signature='...',
-    # ...
-)
-
-#
-# Access private API endpoints, with a STARK private key.
-#
-private_client_with_key = Client(
-    host='http://localhost:8080',
-    api_key_credentials={ 'key': '...', ... },
-    stark_private_key='...',
-)
-private_client.private.create_order(
-    # Order will be signed using the provided STARK private key.
-    # ...
-)
-```
-
-### Using the C++ Library for STARK Signing
-
-By default, STARK curve operations such as signing and verification will use the Python native implementation. These operations occur whenever placing an order or requesting a withdrawal. To use the C++ implementation, initialize the client object with `crypto_c_exports_path`:
-
-```python
-client = Client(
-    crypto_c_exports_path='./libcrypto_c_exports.so',
-    ...
-)
-```
-
-The path should point to a C++ shared library file, built from Starkware's `crypto-cpp` library ([CMake target](https://github.com/starkware-libs/crypto-cpp/blob/601de408bee9f897315b8a5cb0c88e2450a91282/src/starkware/crypto/ffi/CMakeLists.txt#L3)) for the particular platform (e.g. Linux, etc.) that you are running your trading program on.
-
-## Running tests
-
-If you want to run tests when developing the library locally, clone the repo and run:
-
-```
-pip install -r requirements.txt
-docker-compose up # In a separate terminal
-V3_API_HOST=<api-host> tox
-```
-
-NOTE: `api-host` should be `https://api.stage.dydx.exchange` to test in staging.
+![Code Example](docs/CodeBlock.jpg)

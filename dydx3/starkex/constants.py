@@ -1,7 +1,7 @@
 """Constants related to creating hashes of Starkware objects."""
 
 ONE_HOUR_IN_SECONDS = 60 * 60
-ORDER_SIGNATURE_EXPIRATION_BUFFER_HOURS = 24 * 7  # Seven days.
+ORDER_SIGNATURE_EXPIRATION_BUFFER_HOURS = 24 * 14  # Fourteen days days.
 
 TRANSFER_PREFIX = 4
 TRANSFER_PADDING_BITS = 81
